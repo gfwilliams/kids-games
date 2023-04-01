@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: purple;
+        position:absolute;
+        width:100%;height:100%;
+      }
+      #maths {
+        color : white;
+        font-size: 20vh;
+        font-family: sans-serif;
+        position:absolute; top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+      }
+      .mark {
+        position:absolute; top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        width: 25vh; height:25vh;
+        display:none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="maths">
+      1 + 2 = 
+    </div>
+    <img id="answerbad" class="mark" src="img/icons8-cancel.gif">
+    <img id="answergood" class="mark" src="img/icons8-checkmark.gif">
+    <script>
+      var sum = "3 + 4";
+      var result = "";
+      function update() {
+        document.getElementById("maths").innerHTML = sum + " = " + result;
+      }
+      function randInt(a,b) {
+        return a+Math.floor(Math.random()*(b-a));
+      }
+      function newSum() {
+        result = "";
+        sum = randInt(1,9)+ " + " + randInt(1,9);
+        document.body.style["background-color"] = `hsl(${Math.random()*360},100%,30%)`;
+        document.getElementById("answergood").style.display = "";
+        document.getElementById("answerbad").style.display = "";
+        update();
+      }
+      function showResult(ok) {
+        document.getElementById("maths").innerHTML = "";
+        document.body.style["background-color"] = "white";
+        document.getElementById("answergood").style.display = ok?"inline-block":"none";
+        document.getElementById("answerbad").style.display = (!ok)?"inline-block":"none";
+        setTimeout(newSum, 2000);
+      }
+      newSum();
+      window.addEventListener("keypress", function(e) {
+        if ("0123456789".includes(e.key)) {
+          result += e.key;
+          update();
+        }
+      });
+      window.addEventListener("keydown", function(event) {
+        var key = event.keyCode || event.charCode;
+        // console.log(key);
+        if (key==13) {
+          var expected = eval(sum);
+          var isOk = result==expected;
+          console.log(result, expected, isOk);
+          showResult(isOk);
+        }
+        if (key==8 || key==46) {
+          result = result.slice(0,-1);
+          update();
+          return false;
+        }
+      });
+    </script>
+  </body>
+</html>
