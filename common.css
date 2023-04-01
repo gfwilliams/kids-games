@@ -1,0 +1,27 @@
+body {
+  background-color: purple;
+  position:absolute;
+  width:100%;height:100%;
+}
+#maths {
+  color : white;
+  width:100%;
+  text-align: center;
+  font-size: 20vh;
+  font-family: sans-serif;
+  position:absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+.mark {
+  position:absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 25vh; height:25vh;
+  display:none;
+}
+#links {
+  color : white;
+  font-size: 20vh;
+  font-family: sans-serif;
+  position:absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}

@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="common.css" rel="stylesheet">
+    <style>
+     
+    </style>
+  </head>
+  <body>
+    <div id="maths"></div>
+    <img id="answerbad" class="mark" src="img/icons8-cancel.gif">
+    <img id="answergood" class="mark" src="img/icons8-checkmark.gif">
+    <script src="common.js"></script>
+    <script>
+      var images = "👸,🏰,👑,🫅,🐈,🐅,🐆,🐈‍⬛,🐶,🐕,🍧,🥶,☀️,🌈,😎,🔅,❤️".split(",");
+      var sum = "3 + 4";
+      var count = 0;
+      function update() {
+        document.getElementById("maths").innerHTML = `<div style="display:inline-block">${sum}</div> = ${result}`;
+      }
+      function newSum() {
+        result = "";
+        count =  randInt(1,9);
+        sum = (images[randInt(0,images.length-1)]+" ").repeat(count);
+        document.body.style["background-color"] = `hsl(${Math.random()*360},100%,30%)`;
+        document.getElementById("answergood").style.display = "";
+        document.getElementById("answerbad").style.display = "";
+        update();
+      }
+      function showResult(ok) {
+        document.getElementById("maths").innerHTML = "";
+        document.body.style["background-color"] = "white";
+        document.getElementById("answergood").style.display = ok?"inline-block":"none";
+        document.getElementById("answerbad").style.display = (!ok)?"inline-block":"none";
+        setTimeout(newSum, 2000);
+      }
+      function checkResult() {
+        var isOk = result==count;
+        showResult(isOk);
+      }
+      newSum();  
+    </script>
+  </body>
+</html>
