@@ -21,7 +21,13 @@
       function newSum() {
         result = "";
         count =  randInt(1,9);
-        sum = (images[randInt(0,images.length-1)]+" ").repeat(count);
+        var char = images[randInt(0,images.length-1)];
+        if (count<10) {
+          sum = ["", "x","xx","xxx","xxxx","xxxxx",
+                "xxxxxx","xxxx\nxxx","xxxx\nxxxx","xxxxx\nxxxx"][count].replace(/x/g, char).replace(/\n/g, "<br/>");
+        } else
+          sum = char.repeat(count);
+        console.log(count,sum);
         document.body.style["background-color"] = `hsl(${Math.random()*360},100%,30%)`;
         document.getElementById("answergood").style.display = "";
         document.getElementById("answerbad").style.display = "";
