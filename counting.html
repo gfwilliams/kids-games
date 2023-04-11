@@ -24,7 +24,7 @@
         var char = images[randInt(0,images.length-1)];
         if (count<10) {
           sum = ["", "x","xx","xxx","xxxx","xxxxx",
-                "xxxxxx","xxxx\nxxx","xxxx\nxxxx","xxxxx\nxxxx"][count].replace(/x/g, char).replace(/\n/g, "<br/>");
+                "xxx\nxxx","xxxx\nxxx","xxxx\nxxxx","xxxxx\nxxxx"][count].replace(/x/g, char).replace(/\n/g, "<br/>");
         } else
           sum = char.repeat(count);
         console.log(count,sum);
@@ -33,18 +33,13 @@
         document.getElementById("answerbad").style.display = "";
         update();
       }
-      function showResult(ok) {
-        document.getElementById("maths").innerHTML = "";
-        document.body.style["background-color"] = "white";
-        document.getElementById("answergood").style.display = ok?"inline-block":"none";
-        document.getElementById("answerbad").style.display = (!ok)?"inline-block":"none";
-        setTimeout(newSum, 2000);
-      }
       function checkResult() {
         var isOk = result==count;
-        showResult(isOk);
+        showResult(isOk, count);
       }
       newSum();  
+
+      
     </script>
   </body>
 </html>
