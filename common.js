@@ -2,8 +2,6 @@ var result = "";
 const utter_good = ["Well done!","That's great!","Perfect","Good job","Impressive!","Excellent","Fantastic"];
 const utter_bad = ["Oh no", "That's not right!", "I'm afraid not","Sorry","Wrong!"];
 
-
-
 function speak(x) {
   if (typeof SpeechSynthesisUtterance == "undefined") return;
   let utterance = new SpeechSynthesisUtterance(x);
@@ -24,7 +22,6 @@ function showResult(ok, sum) {
   if (ok) speak(sum+". "+utter_good[randInt(0,utter_good.length-1)]);
   else speak(utter_bad[randInt(0,utter_bad.length-1)]);
 }
-
 
 window.addEventListener("keypress", function(e) {
   if ("0123456789".includes(e.key)) {
