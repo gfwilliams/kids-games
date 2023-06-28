@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - LDrawLoader</title>
+		<title>Brick Maths!</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<!--<link type="text/css" rel="stylesheet" href="main.css">-->
@@ -63,8 +63,6 @@
 				'Trailer': 'models/4838-1-MiniVehicles.mpd_Packed.mpd',
 				'Bulldozer': 'models/4915-1-MiniConstruction.mpd_Packed.mpd',
 				'Helicopter': 'models/4918-1-MiniFlyers.mpd_Packed.mpd',
-				'Plane': 'models/5935-1-IslandHopper.mpd_Packed.mpd',
-				'Lighthouse': 'models/30023-1-Lighthouse.ldr_Packed.mpd',
 				'X-Wing mini': 'models/30051-1-X-wingFighter-Mini.mpd_Packed.mpd',
 				'AT-ST mini': 'models/30054-1-AT-ST-Mini.mpd_Packed.mpd',
 				'AT-AT mini': 'models/4489-1-AT-AT-Mini.mpd_Packed.mpd',
@@ -73,9 +71,7 @@
 				'Star fighter': 'models/6966-1-JediStarfighter-Mini.mpd_Packed.mpd',
 				'X-Wing': 'models/7140-1-X-wingFighter.mpd_Packed.mpd',
 				'AT-ST': 'models/10174-1-ImperialAT-ST-UCS.mpd_Packed.mpd',
-				'Lunar Vehicle': 'models/1621-1-LunarMPVVehicle.mpd_Packed.mpd',
 			};
-      var modelIdx = 0;
 
 			init();
 			animate();
@@ -88,8 +84,7 @@
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.set( 150, 200, 250 );
-
-				//
+        //
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -307,7 +302,7 @@
 
 				if ( model.userData.numBuildingSteps > 1 ) {
 
-					gui.add( guiData, 'buildingStep', 0, model.userData.numBuildingSteps - 1 ).step( 1 ).name( 'Building step' ).onChange( updateObjectsVisibility );
+					gui.add( guiData, 'buildingStep', 0, model.userData.numBuildingSteps - 1 ).step( 1 ).name( 'Building step' ).onChange( updateObjectsVisibility ).listen();
 
 				} else {
 
@@ -330,6 +325,10 @@
 
 			function animate() {
 
+        if (model!=null) {
+          model.rotation.y += 0.005;
+          model.position.y = 50;
+        }
 				requestAnimationFrame( animate );
 				controls.update();
 				render();
@@ -382,14 +381,16 @@
 			}
 
       window.showNextModel = function() {
-        if (guiData.buildingStep < model.userData.numBuildingSteps) {
+        if (guiData.buildingStep < model.userData.numBuildingSteps-1) {
           guiData.buildingStep++;
         } else {
           guiData.buildingStep = 0;
+          var models = Object.keys(modelFileList);
+          var modelIdx = models.findIndex(m => modelFileList[m]==guiData.modelFileName);
           modelIdx++;
-          if (modelIdx >= Object.keys(modelFileList).length)
+          if (modelIdx >= models.length)
             modelIdx = 0;
-          guiData.modelFileName = modelFileList[Object.keys(modelFileList)[modelIdx]],
+          guiData.modelFileName = modelFileList[models[modelIdx]],
           reloadObject( true );
         }
         updateObjectsVisibility();
@@ -405,6 +406,7 @@
         document.getElementById("answergood").style.display = "";
         document.getElementById("answerbad").style.display = "";
         update();
+        speak("What is "+sum+"?");
       }
       function checkResult() {
         var expected = eval(sum);
@@ -417,11 +419,15 @@
           }, 2000);
         }
       }
-      setTimeout(newSum,100);
+      window.onload = newSum;
     </script>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <lottie-player class="mark" id="answergood" src="img/icons8-lol.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
+    <lottie-player class="mark" id="answerbad" src="img/icons8-sad.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
     <div id="maths"></div>
-    <img id="answerbad" class="mark" src="img/icons8-cancel.gif">
-    <img id="answergood" class="mark" src="img/icons8-checkmark.gif">
+    <!--<img id="answerbad" class="mark" src="img/icons8-cancel.gif">
+    <img id="answergood" class="mark" src="img/icons8-checkmark.gif">-->
 		<!-- LDraw.org CC BY 2.0 Parts Library attribution -->
 		<div style="display: block; position: absolute; bottom: 8px; left: 8px; width: 160px; padding: 10px; background-color: #F3F7F8;">
 			<center>
